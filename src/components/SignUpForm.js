@@ -30,11 +30,10 @@ const SignUpForm = () => {
       const response = await createUserDocumentsFromAuth(user, {
         displayName: displayName,
       });
-      console.log(response);
     } catch (error) {
       console.log("user creation encountered" + error);
     }
-    resetForm()
+    resetForm();
   };
 
   const handleChange = (event) => {
@@ -44,11 +43,9 @@ const SignUpForm = () => {
     console.log(formFields);
   };
 
-
-   const resetForm = () => {
-     setFormFields(defaultFormFields);
-   };
-
+  const resetForm = () => {
+    setFormFields(defaultFormFields);
+  };
 
   return (
     <div>
@@ -99,4 +96,3 @@ const SignUpForm = () => {
 };
 
 export default SignUpForm;
-

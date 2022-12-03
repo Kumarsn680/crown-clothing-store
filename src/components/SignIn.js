@@ -4,6 +4,8 @@ import {
   getRedirectResult,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
 } from "firebase/auth";
 import FormInput from "./FormInput";
 
@@ -13,6 +15,10 @@ import {
   createUserDocumentsFromAuth,
   signInWithGoogleRedirect,
 } from "../utils/firebase";
+
+
+
+
 
 const defaultFormFields = {
   email: "",
@@ -25,23 +31,22 @@ const SignIn = () => {
   useEffect(() => {
     async function fetchData() {
       const response = await getRedirectResult(auth);
-      console.log(response);
+      // console.log(response);
     }
 
     fetchData();
     return () => {};
   }, []);
 
+
+
+
   const logGoogleUser = async () => {
-    const { user } = await signInWithGooglePopup();
-    console.log(user);
-    const userDocRef = await createUserDocumentsFromAuth(user);
-    console.log(userDocRef);
+     await signInWithGooglePopup();
   };
 
   const logGoogleUserRedirect = async () => {
-    const { user } = await signInWithGoogleRedirect();
-    console.log({ user });
+    await signInWithGoogleRedirect();
   };
 
   const handleChange = (event) => {
@@ -54,8 +59,8 @@ const SignIn = () => {
   const handleForm = async (event) => {
     event.preventDefault();
     try {
-      const response = await signInAuthUserWithEmailAndPassword( email, password);
-      console.log(response)
+      const {user} = await signInAuthUserWithEmailAndPassword( email, password);
+      // console.log(response)
     } catch (error) {
       console.log("User could not login becauase " + error);
     }
@@ -110,3 +115,11 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
   return await signInWithEmailAndPassword(auth, email, password);
 };
+
+
+export const signOutUser = async() =>{
+  await signOut(auth)
+}
+
+export const onAuthStateChangedListener = (callback) =>
+onAuthStateChanged(auth,callback)
