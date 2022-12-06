@@ -3,6 +3,7 @@ import NavigationBar from './components/NavigationBar';
 import {  Route,Routes } from 'react-router-dom';
 import SignIn from './components/SignIn';
 import SignUpForm from './components/SignUpForm';
+import Shop from './components/Shop';
 
 function App() {
 
@@ -42,11 +43,7 @@ function App() {
 
 
 
-  const Shop = () =>{
-    return(
-      <h1>This is Shop page</h1>
-    )
-  }
+
 
   return (
     <div className="App">

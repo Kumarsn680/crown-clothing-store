@@ -3,12 +3,17 @@ import { Link, Outlet } from 'react-router-dom'
 import { ReactComponent as CrownLogo } from "../assets/crown-simple-thin.svg";
 import "./category.styles.scss";
 import { UserContext } from '../context/User_context';
+import { CartContext } from '../context/Cart_context';
 import { signOutUser } from './SignIn';
+import CartIcon from './CartIcon';
+import CartDropdown from './CartDropdown';
 
 const NavigationBar = () => {
   const {currentUser} = useContext(UserContext)
-  
-  
+  const { isCartOpen } = useContext(CartContext);
+
+ 
+
   return (
     <>
       <div className="navigationbar">
@@ -23,9 +28,11 @@ const NavigationBar = () => {
             CONTACT
           </Link>
           {currentUser ? (
-            <Link className="nav-link" to="/" onClick={signOutUser}>
-              SIGN OUT
-            </Link>
+            <>
+              <Link className="nav-link" to="/" onClick={signOutUser}>
+                SIGN OUT
+              </Link>
+            </>
           ) : (
             <>
               <Link className="nav-link" to="/signin">
@@ -36,7 +43,10 @@ const NavigationBar = () => {
               </Link>
             </>
           )}
+          <CartIcon ></CartIcon>
         </div>
+        {console.log(`iscartopen` + isCartOpen)}
+        {isCartOpen ? <CartDropdown></CartDropdown> : <></>}
       </div>
       <Outlet />
     </>
