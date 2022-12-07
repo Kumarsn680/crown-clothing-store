@@ -45,7 +45,6 @@ const NavigationBar = () => {
           )}
           <CartIcon ></CartIcon>
         </div>
-        {console.log(`iscartopen` + isCartOpen)}
         {isCartOpen ? <CartDropdown></CartDropdown> : <></>}
       </div>
       <Outlet />

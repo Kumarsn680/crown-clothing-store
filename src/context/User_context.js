@@ -13,7 +13,6 @@ export const UserProvider = ({ children }) => {
   
 
   useEffect(() => {
-     console.log("hit")
     const  unsubscribe =  onAuthStateChangedListener((user) => {
         console.log(user)
         if(user){
