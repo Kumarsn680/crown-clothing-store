@@ -51,7 +51,7 @@ function App() {
       <Routes>
         <Route path="/" element={<NavigationBar />}>
           <Route index element={<Home categories={categories} />}></Route>
-          <Route path="shop" element={<Shop />}></Route>
+          <Route path="shop/*" element={<Shop />}></Route>
           <Route path="signin" element={<SignIn />}></Route>
           <Route path="signup" element={<SignUpForm />}></Route>
           <Route path="checkout" element={<Checkout />}></Route>
