@@ -22,7 +22,7 @@ const CARTREDUCER_INITIAL_STATE = {
 
 const CARTREDUCER_TYPES = {
   CHANGE_IN_CART: "CHANGE_IN_CART",
-  CART_IS_OPEN: "CART_IS_OPEN",
+  CART_IS_OPEN: "CART_IS_TOGGLED",
 };
 
 const cartReducer = (state,action) => {

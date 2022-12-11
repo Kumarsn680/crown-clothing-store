@@ -1,11 +1,11 @@
-import React, { useContext } from 'react'
+import React from 'react'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { CategoriesContext } from '../context/Categories_context'
 import ProductCard from './ProductCard'
 
 
 const CategoryPreview = ({category}) => {
-    const {categories} = useContext(CategoriesContext)
+    const categories = useSelector((state) => state.categories.categories);
     const productList = categories[category]
     const productPreviewList = productList.slice(0,4)
   return (

@@ -1,12 +1,10 @@
-import { React, useContext } from "react";
-import { CategoriesContext } from "../context/Categories_context";
-import ProductCard from "./ProductCard";
+import { React } from "react";
 import "./category.styles.scss";
 import CategoryPreview from "./CategoryPreview";
+import { useSelector } from "react-redux";
 
 const CategoryPage = () => {
-  const { categories } = useContext(CategoriesContext);
-  console.log("page")
+  const categories = useSelector((state) => state.categories.categories);
   const categoryList = Object.keys(categories);
   return (
 

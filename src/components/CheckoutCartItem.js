@@ -1,16 +1,85 @@
 import React from "react";
-import { useContext } from "react";
-import { CartContext } from "../context/Cart_context";
+import { useDispatch, useSelector } from "react-redux";
+import { CARTREDUCER_TYPES } from "../store/Cart_Reducer";
+
+const addCartItem = (cartitems, productToAdd) => {
+  const cartItemExists = cartitems.find((item) => item.id === productToAdd.id);
+  if (cartItemExists) {
+    return cartitems.map((cartitem) =>
+      cartitem.id === productToAdd.id
+        ? { ...cartitem, quantity: cartitem.quantity + 1 }
+        : cartitem
+    );
+  } else {
+    return [...cartitems, { ...productToAdd, quantity: 1 }];
+  }
+};
+
+const removeCartItem = (cartitems, productToRemove) => {
+  if (productToRemove.quantity > 1) {
+    return cartitems.map((cartitem) =>
+      cartitem.id === productToRemove.id
+        ? { ...cartitem, quantity: cartitem.quantity - 1 }
+        : cartitem
+    );
+  } else {
+    return cartitems.filter((cartitem) => cartitem.id !== productToRemove.id);
+  }
+};
+
+
+const removeCartItemCompletely = (cartitems, productToRemove) => {
+  return cartitems.filter((cartitem) => cartitem.id !== productToRemove.id);
+};
+
+const getCartTotal = (cartitems) =>{
+const cartCount = cartitems.reduce(
+  (total, cartitem) => total + cartitem.quantity * cartitem.price,
+  0
+);
+return cartCount;
+}
+
+
+const updateCartItemReducer = (newCartItems) => {
+  const newCartQuantity = newCartItems.length;
+  const newCartTotal = getCartTotal(newCartItems);
+
+  return {
+    type: CARTREDUCER_TYPES.CHANGE_IN_CART,
+    payload: {
+      cartitems: newCartItems,
+      cartQuantity: newCartQuantity,
+      cartTotal: newCartTotal,
+    }
+  }
+};
+
+const addItemToCart = (cartitems,productToAdd) => {
+  const newCartItems = addCartItem(cartitems, productToAdd);
+  return updateCartItemReducer(newCartItems);
+};
+
+const removeItemFromCart = (cartitems,productToRemove) => {
+  const newCartItems = removeCartItem(cartitems, productToRemove);
+  return updateCartItemReducer(newCartItems);
+};
+
+const removeItemFromCartCompletely = (cartitems,productToRemove) => {
+  const newCartItems = removeCartItemCompletely(cartitems, productToRemove);
+  return updateCartItemReducer(newCartItems);
+};
 
 const CheckoutCartItem = ({ cartitem }) => {
-  const { addItemToCart, removeItemFromCart, removeItemFromCartCompletely } = useContext(CartContext);
+  const cartitems = useSelector((state)=>state.cart.cartitems)
+  const dispatch = useDispatch()
   const { quantity, name, imageUrl, price } = cartitem;
   const increaseQuantity = () => {
-    addItemToCart(cartitem);
+    dispatch(addItemToCart(cartitems,cartitem))
   };
 
   const decreaseQuantity = () => {
-    removeItemFromCart(cartitem);
+    dispatch(removeItemFromCart(cartitems,cartitem))
   };
 
   return (
@@ -35,7 +104,7 @@ const CheckoutCartItem = ({ cartitem }) => {
         </span>
       </div>
       <span>${price}</span>
-      <span onClick={()=>{removeItemFromCartCompletely(cartitem);}}>X</span>
+      <span onClick={()=>{dispatch(removeItemFromCartCompletely(cartitems,cartitem))}}>X</span>
     </div>
   );
 };
